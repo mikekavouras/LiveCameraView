@@ -1,0 +1,6 @@
+framework module Pods_LiveCameraView_Tests {
+  umbrella header "Pods-LiveCameraView_Tests-umbrella.h"
+
+  export *
+  module * { export * }
+}

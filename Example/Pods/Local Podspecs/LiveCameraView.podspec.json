@@ -1,0 +1,22 @@
+{
+  "name": "LiveCameraView",
+  "version": "0.1.0",
+  "summary": "A short description of LiveCameraView.",
+  "description": "TODO: Add long description of the pod here.",
+  "homepage": "https://github.com/<GITHUB_USERNAME>/LiveCameraView",
+  "license": {
+    "type": "MIT",
+    "file": "LICENSE"
+  },
+  "authors": {
+    "Mike Kavouras": "kavourasm@gmail.com"
+  },
+  "source": {
+    "git": "https://github.com/<GITHUB_USERNAME>/LiveCameraView.git",
+    "tag": "0.1.0"
+  },
+  "platforms": {
+    "ios": "8.0"
+  },
+  "source_files": "LiveCameraView/Classes/**/*"
+}

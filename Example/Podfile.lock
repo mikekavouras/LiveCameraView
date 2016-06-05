@@ -1,0 +1,16 @@
+PODS:
+  - LiveCameraView (0.1.0)
+
+DEPENDENCIES:
+  - LiveCameraView (from `../`)
+
+EXTERNAL SOURCES:
+  LiveCameraView:
+    :path: "../"
+
+SPEC CHECKSUMS:
+  LiveCameraView: aa03d653afc0081b555389ecf9744970dc4a8676
+
+PODFILE CHECKSUM: ac934c09d0819809d6811f6071b0e2d2b6468302
+
+COCOAPODS: 1.0.0
