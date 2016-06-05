@@ -8,7 +8,7 @@
 
 import UIKit
 
-class CameraView: UIView {
+class LiveCameraView: UIView {
     
     var gesturesEnabled: Bool = true {
         didSet {
@@ -23,7 +23,7 @@ class CameraView: UIView {
     private let camera = Camera()
     
     lazy var doubleTapGesture: UITapGestureRecognizer = {
-        let doubleTap = UITapGestureRecognizer(target: self, action: #selector(CameraView.handleDoubleTapGesture))
+        let doubleTap = UITapGestureRecognizer(target: self, action: #selector(LiveCameraView.handleDoubleTapGesture))
         doubleTap.numberOfTapsRequired = 2
         return doubleTap
     }()

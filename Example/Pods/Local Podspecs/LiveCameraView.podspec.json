@@ -1,9 +1,9 @@
 {
   "name": "LiveCameraView",
   "version": "0.1.0",
-  "summary": "A short description of LiveCameraView.",
+  "summary": "UIView with live camera feed. Both front and back camera.",
   "description": "TODO: Add long description of the pod here.",
-  "homepage": "https://github.com/<GITHUB_USERNAME>/LiveCameraView",
+  "homepage": "https://github.com/mikekavouras/LiveCameraView",
   "license": {
     "type": "MIT",
     "file": "LICENSE"
@@ -12,7 +12,7 @@
     "Mike Kavouras": "kavourasm@gmail.com"
   },
   "source": {
-    "git": "https://github.com/<GITHUB_USERNAME>/LiveCameraView.git",
+    "git": "https://github.com/mikekavouras/LiveCameraView.git",
     "tag": "0.1.0"
   },
   "platforms": {
