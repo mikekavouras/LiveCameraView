@@ -8,9 +8,9 @@
 
 import UIKit
 
-class LiveCameraView: UIView {
+public class LiveCameraView: UIView {
     
-    var gesturesEnabled: Bool = true {
+    public var gesturesEnabled: Bool = true {
         didSet {
             if gesturesEnabled {
                 addGestureRecognizer(doubleTapGesture)
@@ -22,7 +22,7 @@ class LiveCameraView: UIView {
     
     private let camera = Camera()
     
-    lazy var doubleTapGesture: UITapGestureRecognizer = {
+    lazy private var doubleTapGesture: UITapGestureRecognizer = {
         let doubleTap = UITapGestureRecognizer(target: self, action: #selector(LiveCameraView.handleDoubleTapGesture))
         doubleTap.numberOfTapsRequired = 2
         return doubleTap
@@ -33,12 +33,12 @@ class LiveCameraView: UIView {
         setup()
     }
     
-    required init?(coder aDecoder: NSCoder) {
+    required public init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         setup()
     }
     
-    func captureStill(completion: (UIImage?) -> Void) {
+    public func captureStill(completion: (UIImage?) -> Void) {
         camera.capturePreview { (image) in
             completion(image)
         }
@@ -65,7 +65,7 @@ class LiveCameraView: UIView {
         self.camera.flip()
     }
     
-    override func layoutSubviews() {
+    override public func layoutSubviews() {
         camera.previewLayer.frame = bounds
         super.layoutSubviews()
     }
