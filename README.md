@@ -9,6 +9,7 @@
 
 To run the example project, clone the repo, and run `pod install` from the Example directory first.
 
+![https://github.com/mikekavouras/LiveCameraView/blob/master/assets/example.gif](https://github.com/mikekavouras/LiveCameraView/blob/master/assets/example.gif)
 ## Requirements
 
 ## Installation
