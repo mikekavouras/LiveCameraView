@@ -33,7 +33,7 @@ Don't use storyboards? Instantiate an instance of `LiveCameraView` and add it to
 
 **Capture a still**
 ```swift
-cameraView.captureStill(completion: (image: UIImage?) -> Void) {
+cameraView.captureStill { image in
   // do something
 }
 ```
