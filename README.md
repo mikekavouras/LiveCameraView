@@ -23,12 +23,16 @@ pod "LiveCameraView"
 
 ## Usage
 
-Just drop a `UIView` in your storyboard and change the class to `LiveCameraView`. All done.
+Just drop a `UIView` in your storyboard and change the class to `LiveCameraView`. All done. 
+Don't use storyboards? Instantiate an instance of `LiveCameraView` and add it to a view. All done.
 
-
-
+**Switch the camera**
 ```swift
-// Capture a still image
+// double tap the view
+```
+
+**Capture a still**
+```swift
 cameraView.captureStill(completion: (image: UIImage?) -> Void) {
   // do something
 }
