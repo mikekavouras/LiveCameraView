@@ -5,12 +5,12 @@
 [![License](https://img.shields.io/cocoapods/l/LiveCameraView.svg?style=flat)](http://cocoapods.org/pods/LiveCameraView)
 [![Platform](https://img.shields.io/cocoapods/p/LiveCameraView.svg?style=flat)](http://cocoapods.org/pods/LiveCameraView)
 
+
 ## Example
 
 To run the example project, clone the repo, and run `pod install` from the Example directory first.
 
 ![https://github.com/mikekavouras/LiveCameraView/blob/master/assets/example.gif](https://github.com/mikekavouras/LiveCameraView/blob/master/assets/example.gif)
-## Requirements
 
 ## Installation
 
@@ -19,6 +19,19 @@ it, simply add the following line to your Podfile:
 
 ```ruby
 pod "LiveCameraView"
+```
+
+## Usage
+
+Just drop a `UIView` in your storyboard and change the class to `LiveCameraView`. All done.
+
+
+
+```swift
+// Capture a still image
+cameraView.captureStill(completion: (image: UIImage?) -> Void) {
+  // do something
+}
 ```
 
 ## Author
