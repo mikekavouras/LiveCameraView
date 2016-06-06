@@ -7,8 +7,15 @@
 //
 
 import UIKit
+import AVFoundation
 
 public class LiveCameraView: UIView {
+    
+    public var videoGravity = AVLayerVideoGravityResizeAspect {
+        didSet {
+            camera.gravity = videoGravity
+        }
+    }
     
     public var gesturesEnabled: Bool = true {
         didSet {
@@ -49,6 +56,7 @@ public class LiveCameraView: UIView {
         
         gesturesEnabled = true
         setupCamera()
+        camera.gravity = videoGravity
     }
     
     private func setupCamera() {
@@ -61,8 +69,12 @@ public class LiveCameraView: UIView {
             }, completion: nil)
     }
     
+    public func flip() {
+        camera.flip()
+    }
+    
     @objc private func handleDoubleTapGesture() {
-        self.camera.flip()
+        camera.flip()
     }
     
     override public func layoutSubviews() {

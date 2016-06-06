@@ -11,10 +11,16 @@ import UIKit
 
 class Camera {
     
+    var gravity = AVLayerVideoGravityResizeAspect {
+        didSet {
+            previewLayer.videoGravity = gravity
+        }
+    }
+    
     lazy var previewLayer: AVCaptureVideoPreviewLayer = {
         let layer = AVCaptureVideoPreviewLayer(session: self.session)
         layer.backgroundColor = UIColor.clearColor().CGColor
-        layer.videoGravity = AVLayerVideoGravityResizeAspectFill;
+        layer.videoGravity = self.gravity
         return layer
     }()
     
