@@ -40,7 +40,7 @@ cameraView.captureStill(completion: (image: UIImage?) -> Void) {
 
 ## Author
 
-Mike Kavouras, kavourasm@gmail.com
+Mike Kavouras
 
 ## License
 
