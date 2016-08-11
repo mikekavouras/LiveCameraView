@@ -19,13 +19,13 @@ class Camera {
     
     lazy var previewLayer: AVCaptureVideoPreviewLayer = {
         let layer = AVCaptureVideoPreviewLayer(session: self.session)
-        layer.backgroundColor = UIColor.clearColor().CGColor
-        layer.videoGravity = self.gravity
-        return layer
+        layer?.backgroundColor = UIColor.clear.cgColor
+        layer?.videoGravity = self.gravity
+        return layer!
     }()
     
-    private lazy var sessionQueue: dispatch_queue_t = {
-      return dispatch_queue_create("com.mikekavouras.TeeSnap.capture_session", DISPATCH_QUEUE_SERIAL)
+    private lazy var sessionQueue: DispatchQueue = {
+        return DispatchQueue(label: "com.mikekavouras.LiveCameraView.capture_session")
     }()
     
     private let output = AVCaptureStillImageOutput()
@@ -48,13 +48,13 @@ class Camera {
     }
     
     func startStreaming() {
-        showDeviceForPosition(.Front)
+        showDeviceForPosition(.front)
         
         if session.canAddOutput(output) {
             session.addOutput(output)
         }
         
-        dispatch_async(sessionQueue) { 
+        sessionQueue.async { 
             self.session.startRunning()
         }
     }
@@ -65,14 +65,14 @@ class Camera {
         
         session.beginConfiguration()
         session.removeInput(input)
-        showDeviceForPosition(position == .Front ? .Back : .Front)
+        showDeviceForPosition(position == .front ? .back : .front)
         session.commitConfiguration()
     }
     
-    func capturePreview(completion: (UIImage?) -> Void) {
+    func capturePreview(_ completion: (UIImage?) -> Void) {
         
         let done = { (image: UIImage?) in
-            dispatch_async(dispatch_get_main_queue(), {
+            DispatchQueue.main.async(execute: {
                 completion(image)
             })
         }
@@ -86,18 +86,18 @@ class Camera {
             
             let imageData = AVCaptureStillImageOutput.jpegStillImageNSDataRepresentation(buffer)
             
-            guard let image = UIImage(data: imageData),
+            guard let image = UIImage(data: imageData!),
                 position = self.position else {
                     done(nil)
                     return
             }
 
-            if position == .Front {
-                guard let cgImage = image.CGImage else {
+            if position == .front {
+                guard let cgImage = image.cgImage else {
                     done(nil)
                     return
                 }
-                let flipped = UIImage(CGImage: cgImage, scale: image.scale, orientation: .LeftMirrored)
+                let flipped = UIImage(cgImage: cgImage, scale: image.scale, orientation: .leftMirrored)
                 done(flipped)
             } else {
                 done(image)
@@ -106,18 +106,18 @@ class Camera {
         
     }
     
-    private func captureImage(completion: (CMSampleBuffer!, NSError!) -> Void) {
-        let connection = self.output.connectionWithMediaType(AVMediaTypeVideo)
-        connection.videoOrientation = AVCaptureVideoOrientation(rawValue: UIDeviceOrientation.Portrait.rawValue)!
+    private func captureImage(_ completion: (CMSampleBuffer?, NSError?) -> Void) {
+        let connection = self.output.connection(withMediaType: AVMediaTypeVideo)
+        connection?.videoOrientation = AVCaptureVideoOrientation(rawValue: UIDeviceOrientation.portrait.rawValue)!
         
-        dispatch_async(sessionQueue) { () -> Void in
-            self.output.captureStillImageAsynchronouslyFromConnection(connection) { (buffer, error) -> Void in
+        sessionQueue.async { () -> Void in
+            self.output.captureStillImageAsynchronously(from: connection) { (buffer, error) -> Void in
                 completion(buffer, error)
             }
         }
     }
     
-    private func showDeviceForPosition(position: AVCaptureDevicePosition) {
+    private func showDeviceForPosition(_ position: AVCaptureDevicePosition) {
         guard let device = deviceForPosition(position),
             input = try? AVCaptureDeviceInput(device: device) else {
                 return
@@ -128,8 +128,8 @@ class Camera {
         }
     }
     
-    private func deviceForPosition(position: AVCaptureDevicePosition) -> AVCaptureDevice? {
-        guard let availableCameraDevices: [AVCaptureDevice] = AVCaptureDevice.devicesWithMediaType(AVMediaTypeVideo) as? [AVCaptureDevice],
+    private func deviceForPosition(_ position: AVCaptureDevicePosition) -> AVCaptureDevice? {
+        guard let availableCameraDevices: [AVCaptureDevice] = AVCaptureDevice.devices(withMediaType: AVMediaTypeVideo) as? [AVCaptureDevice],
             device = (availableCameraDevices.filter { $0.position == position }.first) else {
                 return nil
         }
@@ -137,15 +137,15 @@ class Camera {
         return device
     }
     
-    private func checkPermissions(completion: (() -> Void)? = nil) {
-        let authorizationStatus = AVCaptureDevice.authorizationStatusForMediaType(AVMediaTypeVideo)
+    private func checkPermissions(_ completion: (() -> Void)? = nil) {
+        let authorizationStatus = AVCaptureDevice.authorizationStatus(forMediaType: AVMediaTypeVideo)
         switch authorizationStatus {
-        case .NotDetermined:
-            AVCaptureDevice.requestAccessForMediaType(AVMediaTypeVideo,
+        case .notDetermined:
+            AVCaptureDevice.requestAccess(forMediaType: AVMediaTypeVideo,
                                                       completionHandler: { (granted:Bool) -> Void in
                                                         completion?()
             })
-        case .Authorized:
+        case .authorized:
             completion?()
         default: return
         }

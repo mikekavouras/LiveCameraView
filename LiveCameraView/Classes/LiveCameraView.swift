@@ -45,14 +45,14 @@ public class LiveCameraView: UIView {
         setup()
     }
     
-    public func captureStill(completion: (UIImage?) -> Void) {
+    public func captureStill(_ completion: (UIImage?) -> Void) {
         camera.capturePreview { (image) in
             completion(image)
         }
     }
     
     private func setup() {
-        backgroundColor = UIColor.clearColor()
+        backgroundColor = UIColor.clear
         
         gesturesEnabled = true
         setupCamera()
@@ -64,7 +64,7 @@ public class LiveCameraView: UIView {
         
         alpha = 0.0
         camera.startStreaming()
-        UIView.animateWithDuration(0.2, delay: 0.5, options: .CurveLinear, animations: {
+        UIView.animate(withDuration: 0.2, delay: 0.5, options: .curveLinear, animations: {
                 self.alpha = 1.0
             }, completion: nil)
     }
