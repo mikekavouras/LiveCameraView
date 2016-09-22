@@ -9,15 +9,15 @@
 import UIKit
 import AVFoundation
 
-public class LiveCameraView: UIView {
+open class LiveCameraView: UIView {
     
-    public var videoGravity = AVLayerVideoGravityResizeAspect {
+    open var videoGravity = AVLayerVideoGravityResizeAspect {
         didSet {
             camera.gravity = videoGravity
         }
     }
     
-    public var gesturesEnabled: Bool = true {
+    open var gesturesEnabled: Bool = true {
         didSet {
             if gesturesEnabled {
                 addGestureRecognizer(doubleTapGesture)
@@ -27,9 +27,9 @@ public class LiveCameraView: UIView {
         }
     }
     
-    private let camera = Camera()
+    fileprivate let camera = Camera()
     
-    lazy private var doubleTapGesture: UITapGestureRecognizer = {
+    lazy fileprivate var doubleTapGesture: UITapGestureRecognizer = {
         let doubleTap = UITapGestureRecognizer(target: self, action: #selector(LiveCameraView.handleDoubleTapGesture))
         doubleTap.numberOfTapsRequired = 2
         return doubleTap
@@ -45,13 +45,13 @@ public class LiveCameraView: UIView {
         setup()
     }
     
-    public func captureStill(_ completion: @escaping (UIImage?) -> Void) {
+    open func captureStill(_ completion: @escaping (UIImage?) -> Void) {
         camera.capturePreview { (image) in
             completion(image)
         }
     }
     
-    private func setup() {
+    fileprivate func setup() {
         backgroundColor = UIColor.clear
         
         gesturesEnabled = true
@@ -59,7 +59,7 @@ public class LiveCameraView: UIView {
         camera.gravity = videoGravity
     }
     
-    private func setupCamera() {
+    fileprivate func setupCamera() {
         layer.addSublayer(camera.previewLayer)
         
         alpha = 0.0
@@ -69,15 +69,15 @@ public class LiveCameraView: UIView {
             }, completion: nil)
     }
     
-    public func flip() {
+    open func flip() {
         camera.flip()
     }
     
-    @objc private func handleDoubleTapGesture() {
+    @objc fileprivate func handleDoubleTapGesture() {
         camera.flip()
     }
     
-    override public func layoutSubviews() {
+    override open func layoutSubviews() {
         camera.previewLayer.frame = bounds
         super.layoutSubviews()
     }

@@ -24,20 +24,20 @@ class Camera {
         return layer!
     }()
     
-    private lazy var sessionQueue: DispatchQueue = {
+    fileprivate lazy var sessionQueue: DispatchQueue = {
         return DispatchQueue(label: "com.mikekavouras.LiveCameraView.capture_session")
     }()
     
-    private let output = AVCaptureStillImageOutput()
+    fileprivate let output = AVCaptureStillImageOutput()
     
-    private let session = AVCaptureSession()
+    fileprivate let session = AVCaptureSession()
     
-    private var position: AVCaptureDevicePosition? {
+    fileprivate var position: AVCaptureDevicePosition? {
         guard let input = input else { return nil }
         return input.device.position
     }
     
-    private var input: AVCaptureDeviceInput? {
+    fileprivate var input: AVCaptureDeviceInput? {
         guard let inputs = session.inputs as? [AVCaptureDeviceInput] else { return nil }
         return inputs.filter { $0.device.hasMediaType(AVMediaTypeVideo) }.first
     }
@@ -106,7 +106,7 @@ class Camera {
         
     }
     
-    private func captureImage(_ completion: @escaping (CMSampleBuffer?, Error?) -> Void) {
+    fileprivate func captureImage(_ completion: @escaping (CMSampleBuffer?, Error?) -> Void) {
         let connection = self.output.connection(withMediaType: AVMediaTypeVideo)
         connection?.videoOrientation = AVCaptureVideoOrientation(rawValue: UIDeviceOrientation.portrait.rawValue)!
         
@@ -117,7 +117,7 @@ class Camera {
         }
     }
     
-    private func showDeviceForPosition(_ position: AVCaptureDevicePosition) {
+    fileprivate func showDeviceForPosition(_ position: AVCaptureDevicePosition) {
         guard let device = deviceForPosition(position),
             let input = try? AVCaptureDeviceInput(device: device) else {
                 return
@@ -128,7 +128,7 @@ class Camera {
         }
     }
     
-    private func deviceForPosition(_ position: AVCaptureDevicePosition) -> AVCaptureDevice? {
+    fileprivate func deviceForPosition(_ position: AVCaptureDevicePosition) -> AVCaptureDevice? {
         guard let availableCameraDevices: [AVCaptureDevice] = AVCaptureDevice.devices(withMediaType: AVMediaTypeVideo) as? [AVCaptureDevice],
             let device = (availableCameraDevices.filter { $0.position == position }.first) else {
                 return nil
@@ -137,7 +137,7 @@ class Camera {
         return device
     }
     
-    private func checkPermissions(_ completion: (() -> Void)? = nil) {
+    fileprivate func checkPermissions(_ completion: (() -> Void)? = nil) {
         let authorizationStatus = AVCaptureDevice.authorizationStatus(forMediaType: AVMediaTypeVideo)
         switch authorizationStatus {
         case .notDetermined:

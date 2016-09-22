@@ -319,6 +319,9 @@
 					87B57C97FD22F084994705D628784E4D = {
 						LastSwiftMigration = 0800;
 					};
+					F7FFD159971C2D3356641B19324E4D1D = {
+						LastSwiftMigration = 0800;
+					};
 					F9CD6BF178D9A4CCB18E79ECB764C9A9 = {
 						LastSwiftMigration = 0800;
 					};
@@ -415,6 +418,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
 				STRIP_INSTALLED_PRODUCT = NO;
+				SWIFT_VERSION = 3.0;
 				SYMROOT = "${SRCROOT}/../build";
 				VALIDATE_PRODUCT = YES;
 			};
@@ -546,6 +550,7 @@
 				PRODUCT_NAME = Pods_LiveCameraView_Tests;
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
@@ -621,6 +626,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
 				ONLY_ACTIVE_ARCH = YES;
 				STRIP_INSTALLED_PRODUCT = NO;
+				SWIFT_VERSION = 3.0;
 				SYMROOT = "${SRCROOT}/../build";
 			};
 			name = Debug;
@@ -652,6 +658,7 @@
 				PRODUCT_NAME = Pods_LiveCameraView_Tests;
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
