@@ -45,7 +45,7 @@ public class LiveCameraView: UIView {
         setup()
     }
     
-    public func captureStill(_ completion: (UIImage?) -> Void) {
+    public func captureStill(_ completion: @escaping (UIImage?) -> Void) {
         camera.capturePreview { (image) in
             completion(image)
         }

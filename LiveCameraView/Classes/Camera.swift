@@ -61,7 +61,7 @@ class Camera {
     
     func flip() {
         guard let input = self.input,
-            position = self.position else { return }
+            let position = self.position else { return }
         
         session.beginConfiguration()
         session.removeInput(input)
@@ -69,7 +69,7 @@ class Camera {
         session.commitConfiguration()
     }
     
-    func capturePreview(_ completion: (UIImage?) -> Void) {
+    func capturePreview(_ completion: @escaping (UIImage?) -> Void) {
         
         let done = { (image: UIImage?) in
             DispatchQueue.main.async(execute: {
@@ -87,7 +87,7 @@ class Camera {
             let imageData = AVCaptureStillImageOutput.jpegStillImageNSDataRepresentation(buffer)
             
             guard let image = UIImage(data: imageData!),
-                position = self.position else {
+                let position = self.position else {
                     done(nil)
                     return
             }
@@ -106,7 +106,7 @@ class Camera {
         
     }
     
-    private func captureImage(_ completion: (CMSampleBuffer?, NSError?) -> Void) {
+    private func captureImage(_ completion: @escaping (CMSampleBuffer?, Error?) -> Void) {
         let connection = self.output.connection(withMediaType: AVMediaTypeVideo)
         connection?.videoOrientation = AVCaptureVideoOrientation(rawValue: UIDeviceOrientation.portrait.rawValue)!
         
@@ -119,7 +119,7 @@ class Camera {
     
     private func showDeviceForPosition(_ position: AVCaptureDevicePosition) {
         guard let device = deviceForPosition(position),
-            input = try? AVCaptureDeviceInput(device: device) else {
+            let input = try? AVCaptureDeviceInput(device: device) else {
                 return
         }
         
@@ -130,7 +130,7 @@ class Camera {
     
     private func deviceForPosition(_ position: AVCaptureDevicePosition) -> AVCaptureDevice? {
         guard let availableCameraDevices: [AVCaptureDevice] = AVCaptureDevice.devices(withMediaType: AVMediaTypeVideo) as? [AVCaptureDevice],
-            device = (availableCameraDevices.filter { $0.position == position }.first) else {
+            let device = (availableCameraDevices.filter { $0.position == position }.first) else {
                 return nil
         }
         
