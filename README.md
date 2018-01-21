@@ -1,6 +1,5 @@
 # LiveCameraView
 
-[![CI Status](http://img.shields.io/travis/Mike Kavouras/LiveCameraView.svg?style=flat)](https://travis-ci.org/Mike Kavouras/LiveCameraView)
 [![Version](https://img.shields.io/cocoapods/v/LiveCameraView.svg?style=flat)](http://cocoapods.org/pods/LiveCameraView)
 [![License](https://img.shields.io/cocoapods/l/LiveCameraView.svg?style=flat)](http://cocoapods.org/pods/LiveCameraView)
 [![Platform](https://img.shields.io/cocoapods/p/LiveCameraView.svg?style=flat)](http://cocoapods.org/pods/LiveCameraView)
