@@ -1,6 +1,6 @@
 {
   "name": "LiveCameraView",
-  "version": "0.1.0",
+  "version": "0.2.1",
   "summary": "UIView with live camera feed. Both front and back camera.",
   "homepage": "https://github.com/mikekavouras/LiveCameraView",
   "license": {
@@ -12,7 +12,7 @@
   },
   "source": {
     "git": "https://github.com/mikekavouras/LiveCameraView.git",
-    "tag": "0.1.0"
+    "tag": "0.2.1"
   },
   "platforms": {
     "ios": "8.0"

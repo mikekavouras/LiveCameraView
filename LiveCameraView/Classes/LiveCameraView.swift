@@ -11,7 +11,7 @@ import AVFoundation
 
 public class LiveCameraView: UIView {
     
-    public var videoGravity = AVLayerVideoGravityResizeAspect {
+    public var videoGravity = AVLayerVideoGravity.resizeAspect {
         didSet {
             camera.gravity = videoGravity
         }
@@ -45,7 +45,7 @@ public class LiveCameraView: UIView {
         setup()
     }
     
-    public func captureStill(_ completion: (UIImage?) -> Void) {
+    public func captureStill(_ completion: @escaping (UIImage?) -> Void) {
         camera.capturePreview { (image) in
             completion(image)
         }
