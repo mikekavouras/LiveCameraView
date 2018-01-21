@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = 'LiveCameraView'
-  s.version          = '0.2.1'
+  s.version          = '0.2.2'
   s.summary          = 'UIView with live camera feed. Both front and back camera.'
   s.homepage         = 'https://github.com/mikekavouras/LiveCameraView'
   s.license          = { :type => 'MIT', :file => 'LICENSE' }
