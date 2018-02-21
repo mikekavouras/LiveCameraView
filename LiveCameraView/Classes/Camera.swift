@@ -9,7 +9,13 @@
 import AVFoundation
 import UIKit
 
-class Camera {
+protocol CameraDelegate: class {
+    func didReceiveFilteredImage(_ image: UIImage)
+}
+
+class Camera: NSObject, AVCaptureVideoDataOutputSampleBufferDelegate {
+    
+    weak var delegate: CameraDelegate?
     
     var gravity = AVLayerVideoGravity.resizeAspect {
         didSet {
@@ -28,7 +34,7 @@ class Camera {
         return DispatchQueue(label: "com.mikekavouras.LiveCameraView.capture_session")
     }()
     
-    private let output = AVCaptureStillImageOutput()
+    private let output = AVCaptureVideoDataOutput()
     
     private let session = AVCaptureSession()
     
@@ -42,8 +48,13 @@ class Camera {
         return inputs.filter { $0.device.hasMediaType(AVMediaType.video) }.first
     }
     
-    init() {
+    override init() {
+        super.init()
+        
         session.sessionPreset = AVCaptureSession.Preset.photo
+        let queue = DispatchQueue(label: "example serial queue")
+        
+        output.setSampleBufferDelegate(self, queue: queue)
         checkPermissions()
     }
     
@@ -53,6 +64,9 @@ class Camera {
         if session.canAddOutput(output) {
             session.addOutput(output)
         }
+        
+        let connection = output.connection(with: AVFoundation.AVMediaType.video)
+        connection?.videoOrientation = .portrait
         
         sessionQueue.async { 
             self.session.startRunning()
@@ -70,37 +84,34 @@ class Camera {
     }
     
     func capturePreview(_ completion: @escaping (UIImage?) -> Void) {
+        var image: UIImage?
         
-        let done = { (image: UIImage?) in
-            DispatchQueue.main.async(execute: {
+        defer {
+            DispatchQueue.main.async {
                 completion(image)
-            })
+            }
         }
         
         captureImage { (buffer, error) in
             
             guard error == nil else {
-                done(nil)
                 return
             }
             
             let imageData = AVCaptureStillImageOutput.jpegStillImageNSDataRepresentation(buffer!)
             
-            guard let image = UIImage(data: imageData!),
+            guard let capturedImage = UIImage(data: imageData!),
                 let position = self.position else {
-                    done(nil)
                     return
             }
 
             if position == .front {
-                guard let cgImage = image.cgImage else {
-                    done(nil)
+                guard let cgImage = capturedImage.cgImage else {
                     return
                 }
-                let flipped = UIImage(cgImage: cgImage, scale: image.scale, orientation: .leftMirrored)
-                done(flipped)
+                image = UIImage(cgImage: cgImage, scale: capturedImage.scale, orientation: .leftMirrored)
             } else {
-                done(image)
+                image = capturedImage
             }
         }
         
@@ -110,11 +121,11 @@ class Camera {
         let connection = self.output.connection(with: AVMediaType.video)
         connection?.videoOrientation = AVCaptureVideoOrientation(rawValue: UIDeviceOrientation.portrait.rawValue)!
         
-        sessionQueue.async { () -> Void in
-            self.output.captureStillImageAsynchronously(from: connection!) { (buffer, error) -> Void in
-                completion(buffer, error)
-            }
-        }
+//        sessionQueue.async { () -> Void in
+//            self.output.captureStillImageAsynchronously(from: connection!) { (buffer, error) -> Void in
+//                completion(buffer, error)
+//            }
+//        }
     }
     
     private func showDeviceForPosition(_ position: AVCaptureDevice.Position) {
@@ -148,5 +159,26 @@ class Camera {
         default: return
         }
     }
-    
+}
+
+// MARK: - AVCaptureVideoDataOutputSampleBufferDelegate
+
+extension Camera {
+    func captureOutput(_ output: AVCaptureOutput, didOutput sampleBuffer: CMSampleBuffer, from connection: AVCaptureConnection) {
+        let pixelBuffer = CMSampleBufferGetImageBuffer(sampleBuffer)
+        if #available(iOS 9.0, *) {
+            let cameraImage = CIImage(cvImageBuffer: pixelBuffer!)
+            
+//            let filter = CIFilter.init(name: "CIAffineTransform")
+//            var transform = CGAffineTransform(translationX: 200, y: 1600)
+//            transform = transform.rotated(by: CGFloat(-1.5708))
+//            filter!.setValue(transform, forKey: kCIInputTransformKey)
+        let comicEffect = CIFilter(name: "CIComicEffect")
+            comicEffect!.setValue(cameraImage, forKey: kCIInputImageKey)
+        
+            let filteredImage = UIImage(ciImage: comicEffect!.value(forKey: kCIOutputImageKey) as! CIImage!)
+        
+            delegate?.didReceiveFilteredImage(filteredImage)
+        }
+    }
 }

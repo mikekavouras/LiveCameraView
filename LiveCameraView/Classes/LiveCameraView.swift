@@ -9,7 +9,9 @@
 import UIKit
 import AVFoundation
 
-public class LiveCameraView: UIView {
+public class LiveCameraView: UIView, CameraDelegate {
+    
+    let imageView = UIImageView()
     
     public var videoGravity = AVLayerVideoGravity.resizeAspect {
         didSet {
@@ -57,10 +59,21 @@ public class LiveCameraView: UIView {
         gesturesEnabled = true
         setupCamera()
         camera.gravity = videoGravity
+        camera.delegate = self
     }
     
     private func setupCamera() {
-        layer.addSublayer(camera.previewLayer)
+//        layer.addSublayer(camera.previewLayer)
+        addSubview(imageView)
+        
+        if #available(iOS 9.0, *) {
+            let margins = layoutMarginsGuide
+            imageView.leadingAnchor.constraint(equalTo: margins.leadingAnchor).isActive = true
+            imageView.topAnchor.constraint(equalTo: margins.topAnchor).isActive = true
+            imageView.bottomAnchor.constraint(equalTo: margins.bottomAnchor).isActive = true
+            imageView.trailingAnchor.constraint(equalTo: margins.trailingAnchor).isActive = true
+            imageView.translatesAutoresizingMaskIntoConstraints = false
+        }
         
         alpha = 0.0
         camera.startStreaming()
@@ -82,5 +95,9 @@ public class LiveCameraView: UIView {
         super.layoutSubviews()
     }
     
-
+    func didReceiveFilteredImage(_ image: UIImage) {
+        DispatchQueue.main.async {
+            self.imageView.image = image
+        }
+    }
 }
