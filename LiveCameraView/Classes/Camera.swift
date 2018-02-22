@@ -17,6 +17,10 @@ class Camera: NSObject, AVCaptureVideoDataOutputSampleBufferDelegate {
     
     weak var delegate: CameraDelegate?
     
+    var hasCamera: Bool {
+        return AVCaptureDevice.devices().count > 0
+    }
+    
     open func device() -> AVCaptureDevice? {
         return input?.device
     }
