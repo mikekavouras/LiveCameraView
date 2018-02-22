@@ -92,52 +92,7 @@ open class Camera: NSObject, AVCaptureVideoDataOutputSampleBufferDelegate {
         showDeviceForPosition(position == .front ? .back : .front)
         session.commitConfiguration()
     }
-    
-    func capturePreview(_ completion: @escaping (UIImage?) -> Void) {
-        var image: UIImage?
-        
-        defer {
-            DispatchQueue.main.async {
-                completion(image)
-            }
-        }
-        
-        captureImage { (buffer, error) in
-            
-            guard error == nil else {
-                return
-            }
-            
-            let imageData = AVCaptureStillImageOutput.jpegStillImageNSDataRepresentation(buffer!)
-            
-            guard let capturedImage = UIImage(data: imageData!),
-                let position = self.position else {
-                    return
-            }
-
-            if position == .front {
-                guard let cgImage = capturedImage.cgImage else {
-                    return
-                }
-                image = UIImage(cgImage: cgImage, scale: capturedImage.scale, orientation: .leftMirrored)
-            } else {
-                image = capturedImage
-            }
-        }
-        
-    }
-    
-    private func captureImage(_ completion: @escaping (CMSampleBuffer?, Error?) -> Void) {
-        let connection = self.output.connection(with: AVMediaType.video)
-        connection?.videoOrientation = AVCaptureVideoOrientation(rawValue: UIDeviceOrientation.portrait.rawValue)!
-        
-//        sessionQueue.async { () -> Void in
-//            self.output.captureStillImageAsynchronously(from: connection!) { (buffer, error) -> Void in
-//                completion(buffer, error)
-//            }
-//        }
-    }
-    
+//        
     private func showDeviceForPosition(_ position: AVCaptureDevice.Position) {
         guard let device = deviceForPosition(position),
             let input = try? AVCaptureDeviceInput(device: device) else {
@@ -147,6 +102,9 @@ open class Camera: NSObject, AVCaptureVideoDataOutputSampleBufferDelegate {
         if session.canAddInput(input) {
             session.addInput(input)
         }
+        
+        let connection = output.connection(with: AVFoundation.AVMediaType.video)
+        connection?.videoOrientation = .portrait
     }
     
     private func deviceForPosition(_ position: AVCaptureDevice.Position) -> AVCaptureDevice? {
