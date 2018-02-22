@@ -17,6 +17,8 @@ class Camera: NSObject, AVCaptureVideoDataOutputSampleBufferDelegate {
     
     weak var delegate: CameraDelegate?
     
+    open var filter: CIFilter? = nil
+    
     var hasCamera: Bool {
         return AVCaptureDevice.devices().count > 0
     }
@@ -177,12 +179,16 @@ extension Camera {
         if #available(iOS 9.0, *) {
             let cameraImage = CIImage(cvImageBuffer: pixelBuffer!)
             
-            let comicEffect = CIFilter(name: "CIComicEffect")
-            comicEffect!.setValue(cameraImage, forKey: kCIInputImageKey)
+            let image: UIImage
+            if let filter = filter {
+                filter.setValue(cameraImage, forKey: kCIInputImageKey)
+                image = UIImage(ciImage: filter.value(forKey: kCIOutputImageKey) as! CIImage!)
+            } else {
+                image = UIImage(ciImage: cameraImage)
+            }
+            
         
-            let filteredImage = UIImage(ciImage: comicEffect!.value(forKey: kCIOutputImageKey) as! CIImage!)
-        
-            delegate?.didReceiveFilteredImage(filteredImage)
+            delegate?.didReceiveFilteredImage(image)
         }
     }
 }
