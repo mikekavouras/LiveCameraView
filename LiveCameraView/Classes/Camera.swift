@@ -17,6 +17,10 @@ class Camera: NSObject, AVCaptureVideoDataOutputSampleBufferDelegate {
     
     weak var delegate: CameraDelegate?
     
+    open func device() -> AVCaptureDevice? {
+        return input?.device
+    }
+    
     var gravity = AVLayerVideoGravity.resizeAspect {
         didSet {
             previewLayer.videoGravity = gravity

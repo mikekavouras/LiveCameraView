@@ -52,9 +52,9 @@ public class LiveCameraView: UIView, CameraDelegate {
     }
     
     public func captureStill(_ completion: @escaping (UIImage?) -> Void) {
-        camera.capturePreview { (image) in
-            completion(image)
-        }
+//        camera.capturePreview { (image) in
+            completion(imageView.image)
+//        }
     }
     
     private func setup() {
