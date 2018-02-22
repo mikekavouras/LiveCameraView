@@ -13,7 +13,7 @@ protocol CameraDelegate: class {
     func didReceiveFilteredImage(_ image: UIImage)
 }
 
-class Camera: NSObject, AVCaptureVideoDataOutputSampleBufferDelegate {
+open class Camera: NSObject, AVCaptureVideoDataOutputSampleBufferDelegate {
     
     weak var delegate: CameraDelegate?
     
@@ -174,7 +174,7 @@ class Camera: NSObject, AVCaptureVideoDataOutputSampleBufferDelegate {
 // MARK: - AVCaptureVideoDataOutputSampleBufferDelegate
 
 extension Camera {
-    func captureOutput(_ output: AVCaptureOutput, didOutput sampleBuffer: CMSampleBuffer, from connection: AVCaptureConnection) {
+    public func captureOutput(_ output: AVCaptureOutput, didOutput sampleBuffer: CMSampleBuffer, from connection: AVCaptureConnection) {
         let pixelBuffer = CMSampleBufferGetImageBuffer(sampleBuffer)
         if #available(iOS 9.0, *) {
             let cameraImage = CIImage(cvImageBuffer: pixelBuffer!)

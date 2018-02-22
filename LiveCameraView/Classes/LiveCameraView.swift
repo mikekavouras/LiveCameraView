@@ -13,7 +13,7 @@ public class LiveCameraView: UIView, CameraDelegate {
     
     let imageView = UIImageView()
     
-    let camera = Camera()
+    open let camera = Camera()
     
     public var videoGravity = AVLayerVideoGravity.resizeAspect {
         didSet {
