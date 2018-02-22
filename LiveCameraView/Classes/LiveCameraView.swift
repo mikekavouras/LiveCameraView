@@ -15,9 +15,9 @@ public class LiveCameraView: UIView, CameraDelegate {
     
     open let camera = Camera()
     
-    public var videoGravity = AVLayerVideoGravity.resizeAspect {
+    public var videoGravity: UIViewContentMode = .scaleAspectFill {
         didSet {
-            camera.gravity = videoGravity
+            imageView.contentMode = videoGravity
         }
     }
     
@@ -64,14 +64,15 @@ public class LiveCameraView: UIView, CameraDelegate {
         
         gesturesEnabled = true
         setupCamera()
-        camera.gravity = videoGravity
         camera.delegate = self
+        layer.masksToBounds = true
     }
     
     private func setupCamera() {
         addSubview(imageView)
         
         if #available(iOS 9.0, *) {
+            layoutMargins = .zero
             let margins = layoutMarginsGuide
             imageView.leadingAnchor.constraint(equalTo: margins.leadingAnchor).isActive = true
             imageView.topAnchor.constraint(equalTo: margins.topAnchor).isActive = true
@@ -83,8 +84,8 @@ public class LiveCameraView: UIView, CameraDelegate {
         alpha = 0.0
         camera.startStreaming()
         UIView.animate(withDuration: 0.2, delay: 0.5, options: .curveLinear, animations: {
-                self.alpha = 1.0
-            }, completion: nil)
+            self.alpha = 1.0
+        }, completion: nil)
     }
     
     public func flip() {
