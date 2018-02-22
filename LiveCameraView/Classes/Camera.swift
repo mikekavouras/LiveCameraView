@@ -169,11 +169,7 @@ extension Camera {
         if #available(iOS 9.0, *) {
             let cameraImage = CIImage(cvImageBuffer: pixelBuffer!)
             
-//            let filter = CIFilter.init(name: "CIAffineTransform")
-//            var transform = CGAffineTransform(translationX: 200, y: 1600)
-//            transform = transform.rotated(by: CGFloat(-1.5708))
-//            filter!.setValue(transform, forKey: kCIInputTransformKey)
-        let comicEffect = CIFilter(name: "CIComicEffect")
+            let comicEffect = CIFilter(name: "CIComicEffect")
             comicEffect!.setValue(cameraImage, forKey: kCIInputImageKey)
         
             let filteredImage = UIImage(ciImage: comicEffect!.value(forKey: kCIOutputImageKey) as! CIImage!)

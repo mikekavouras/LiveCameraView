@@ -13,6 +13,8 @@ public class LiveCameraView: UIView, CameraDelegate {
     
     let imageView = UIImageView()
     
+    let camera = Camera()
+    
     public var videoGravity = AVLayerVideoGravity.resizeAspect {
         didSet {
             camera.gravity = videoGravity
@@ -29,7 +31,9 @@ public class LiveCameraView: UIView, CameraDelegate {
         }
     }
     
-    private let camera = Camera()
+    open func device() -> AVCaptureDevice? {
+        return camera.device()
+    }
     
     lazy private var doubleTapGesture: UITapGestureRecognizer = {
         let doubleTap = UITapGestureRecognizer(target: self, action: #selector(LiveCameraView.handleDoubleTapGesture))
@@ -63,7 +67,6 @@ public class LiveCameraView: UIView, CameraDelegate {
     }
     
     private func setupCamera() {
-//        layer.addSublayer(camera.previewLayer)
         addSubview(imageView)
         
         if #available(iOS 9.0, *) {
