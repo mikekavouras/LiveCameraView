@@ -1,6 +1,6 @@
 # LiveCameraView
 
-[![Version](https://img.shields.io/cocoapods/v/LiveCameraView.svg?style=flat)](http://cocoapods.org/pods/LiveCameraView)
+[![Version](https://img.shields.io/cocoapods/v/LiveCamersdfsdfaView.svg?style=flat)](http://cocoapods.org/pods/LiveCameraView)
 [![License](https://img.shields.io/cocoapods/l/LiveCameraView.svg?style=flat)](http://cocoapods.org/pods/LiveCameraView)
 [![Platform](https://img.shields.io/cocoapods/p/LiveCameraView.svg?style=flat)](http://cocoapods.org/pods/LiveCameraView)
 
